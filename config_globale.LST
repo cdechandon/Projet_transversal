@@ -1,0 +1,62 @@
+C51 COMPILER V9.52.0.0   CONFIG_GLOBALE                                                    03/21/2018 12:09:09 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE CONFIG_GLOBALE
+OBJECT MODULE PLACED IN config_globale.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE config_globale.c BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include <c8051f020.h>
+   2          #include "config_globale.h"
+   3          #include "Declarations_GPIO_BSE.h"
+   4          #include <intrins.h>
+   5          void oscillator_init (void)
+   6          { 
+   7   1        int i=0;
+   8   1        OSCXCN = 0x67; // Crystal oscillator mode
+   9   1        for (i = 0; i < 3000; i++)  // Wait for 1ms
+  10   1        while ((OSCXCN & 0x80) == 0x00);  // Crystal oscillator valid flag check
+  11   1        OSCICN = 0x08;  // Swicth from oscillator
+  12   1      }
+  13          
+  14          void Reset_Sources_init(void)
+  15          {
+  16   1        WDTCN = 0xDE; // desactivation du watchdog
+  17   1        WDTCN = 0xAD;
+  18   1      }
+  19          
+  20          void Init_Port(void)
+  21          { 
+  22   1      
+  23   1        P0MDOUT &= 0x3C; // P0.0, P0.1, P0.6 et P0.7 O.D
+  24   1        P0= 0x41; //P0.0 et P0.6 état haut
+  25   1        P3        |= 0x80;
+  26   1          XBR0      = 0x06;
+  27   1          XBR2      = 0x44;
+  28   1        P0MDOUT |= 0x41; // P0.0, P0.1, P0.6 et P0.7 O.D
+  29   1        
+  30   1      }
+  31          
+  32          void Init_Device(void) //appel d'une fonction unique dans le main
+  33          { 
+  34   1        EA=0;
+  35   1        oscillator_init();
+  36   1        Reset_Sources_init();
+  37   1        Init_Port();
+  38   1        EA=1;
+  39   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     66    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,212 @@
+C51 COMPILER V9.52.0.0   CONFIG_UART                                                       03/21/2018 12:09:10 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE CONFIG_UART
+OBJECT MODULE PLACED IN config_UART.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE config_UART.c BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include <c8051f020.h>
+   2          #include "Declarations_GPIO_BSE.h"
+   3          #include "config_UART.h"
+   4          #include "CFG_Globale.h"
+   5          //parametres definis dans le sujet
+   6          #define BAUDRATE 19200 
+   7          #define SYSCLK 22118400
+   8          
+   9          
+  10          //fonction de config de la clk de UART0 (p81 cours UART)
+  11          void CFG_Clock_UART0(void) { 
+  12   1        TR1=0;//timer stoppé
+  13   1        TF1=0;//flag timer effacé
+  14   1        CKCON |= 0x10; //timer1 utilisation en source d'horloge
+  15   1        TMOD &= 0x0f; //auto reload
+  16   1        TMOD |= 0x20; //choix du mode 8-bit et du Baud Gate control pour le Timer1
+  17   1        TH1=-(SYSCLK/BAUDRATE/16); //voir schema p76 cours UART -> remonter le schema -> 271ns de periode -> 6*45
+             -ns
+  18   1        ET1=0;//devalidation de l'interruption du timer1
+  19   1        TR1=1; //timer1 demarré
+  20   1      }
+  21          
+  22          
+  23          void CFG_UART0(void) {
+  24   1        SCON0 |= 0x70; //mise en mode 1 du SCON0
+  25   1        SCON0 &= 0x7C; //RI0 actif
+  26   1        PCON &= 0xbf; //SSTAT0 = 0
+  27   1        PCON |= 0x80; //UART BAUDRATE divide by 2 disabled
+  28   1        RCLK0 = 0; //Timer1 overflows used for recieve clock
+  29   1        TCLK0 = 0; //Timer1 overflows used for transmit clock
+  30   1        TI0 = 1; //Transmets interrupt flag
+  31   1      }
+  32          
+  33          //fonction putchar, voir l'algorigramme p6 de la doc du projet
+  34          char putchar0(char c, char csg_tempo) {
+  35   1        int i=0;
+  36   1        do {
+  37   2          if (TI0==1){ //registre SCON0 -> non adressable bit a bit, on met le drapeau de transmission de SCON0 a 
+             -1
+  38   3            SBUF0 = c; //char c dans le registre de donnees de l'UART : SBUF0
+  39   3            SCON0&=0xfd; //RAZ du drapeau
+  40   3            return c; //caractere renvoye
+  41   3          }
+  42   2          else{ //si drapeau pas pret a transmettre
+  43   3            for (i=0;i<250;i++) { //100us -> 45ns * 250 - en assembleur, plus de commandes utilisés pour faire un f
+             -or donc 1 passage dans boucle fait beaucoup de coups d'horloge - on a fait une approximation 
+  44   4              
+  45   4            }
+  46   3            csg_tempo -- ; //decrementation de csg_tempo
+  47   3          }
+  48   2        }while (csg_tempo != 0); //while tant que csg_tempo n'est pas arrivé a 0
+  49   1        return 0;
+  50   1      }
+  51          
+  52          //transmission octet par octet (8051, car SBUF0 est buffer d'1 octet)
+C51 COMPILER V9.52.0.0   CONFIG_UART                                                       03/21/2018 12:09:10 PAGE 2   
+
+  53          char Send_String0(char *char_ptr) {
+  54   1        int i=0;
+  55   1        char test;
+  56   1        while (*char_ptr != 0x00) //tant qu'on est pas en bout de chaine
+  57   1        {
+  58   2          test = putchar0(*(char_ptr+i), 100); //on appelle putchar 
+  59   2          i++; 
+  60   2          if (test == 0x00) { //si l'UART est pas pret a transmettre un caractere (cf fonction putchar)
+  61   3            return 0;
+  62   3          }
+  63   2        }
+  64   1        return i; //nb de caracteres envoyes
+  65   1      }
+  66          
+  67          //fonction reception d'un caractere (cf algorigramme dans la doc)
+  68          char Getchar0(void){
+  69   1        char c;
+  70   1        if((SCON0&0x01)==0x00) //selection du bit 1 de SCON0 , si il est a 0
+  71   1        {
+  72   2          return 0;
+  73   2        }
+  74   1        else{
+  75   2          c=SBUF0; //lecture du caractere recu
+  76   2          SCON0&=0xfe;
+  77   2        return c;
+  78   2        }
+  79   1      }
+  80          
+  81          //fonction de test de l'UART
+  82          void test_UART0(void) {
+  83   1        char c[10];
+  84   1        c[0] = Getchar0(); //c prend la valeur du getchar
+  85   1        c[1] = '\0';
+  86   1        if (c!=0) {
+  87   2          Send_String0(&c);
+  88   2        }
+  89   1      }
+  90          
+  91          
+  92          
+  93          
+  94          
+  95          
+  96          
+  97          
+  98          //fonction de config de la clk de UART0 (p81 cours UART)
+  99          void CFG_Clock_UART1(void) { // a revoir
+ 100   1        TR1=0;//timer stoppé
+ 101   1        SCON1 &=0xFD;//flag timer effacé
+ 102   1        CKCON |= 0x10; //timer1 utilisation en source d'horloge
+ 103   1        TMOD &= 0x0f; //auto reload
+ 104   1        TMOD |= 0x20; //choix du mode 8-bit et du Baud Gate control pour le Timer1
+ 105   1        TH1=-(SYSCLK/BAUDRATE/16); //voir schema p76 cours UART -> remonter le schema -> 271ns de periode -> 6*45
+             -ns
+ 106   1        ET1=0;//devalidation de l'interruption du timer1
+ 107   1        TR1=1; //timer1 demarré
+ 108   1      }
+ 109          
+ 110          
+ 111          void CFG_UART1(void) {
+ 112   1        SCON1 |= 0x70; //mise en mode 1 UART1
+ 113   1        SCON1 &= 0x7C; //RI1 actif
+C51 COMPILER V9.52.0.0   CONFIG_UART                                                       03/21/2018 12:09:10 PAGE 3   
+
+ 114   1        PCON &= 0xf7; //SSTAT1 = 0
+ 115   1        PCON |= 0x10; //UART BAUDRATE divide by 2 disabled
+ 116   1        RCLK0 = 0; //Timer1 overflows used for recieve clock
+ 117   1        TCLK0 = 0; //Timer1 overflows used for transmit clock
+ 118   1        SCON1 |= 0x02; //Transmets interrupt flag
+ 119   1      }
+ 120          
+ 121          //fonction putchar, voir l'algorigramme p6 de la doc du projet
+ 122          char putchar1(char c, char csg_tempo) {
+ 123   1        int i=0;
+ 124   1        do {
+ 125   2          if ((SCON1&0x02)==0x02){ //registre SCON0 -> non adressable bit a bit, on met le drapeau de transmission
+             - de SCON0 a 1
+ 126   3            SBUF1 = c; //char c dans le registre de donnees de l'UART : SBUF1
+ 127   3            SCON1&=0xfd; //RAZ du drapeau
+ 128   3            return c; //caractere renvoye
+ 129   3          }
+ 130   2          else{ //si drapeau pas pret a transmettre
+ 131   3            for (i=0;i<250;i++) { //100us -> 45ns * 250 - en assembleur, plus de commandes utilisés pour faire un f
+             -or donc 1 passage dans boucle fait beaucoup de coups d'horloge - on a fait une approximation 
+ 132   4              
+ 133   4            }
+ 134   3            csg_tempo -- ; //decrementation de csg_tempo
+ 135   3          }
+ 136   2        }while (csg_tempo != 0); //while tant que csg_tempo n'est pas arrivé a 0
+ 137   1        return 0;
+ 138   1      }
+ 139          
+ 140          //transmission octet par octet (8051, car SBUF0 est buffer d'1 octet)
+ 141          char Send_String1(char *char_ptr) {
+ 142   1        int i=0;
+ 143   1        char test;
+ 144   1        while (*(char_ptr+i) != 0x00) //tant qu'on est pas en bout de chaine
+ 145   1        {
+ 146   2          test = putchar1(*(char_ptr+i), 100); //on appelle putchar 
+ 147   2          i++; 
+ 148   2          if (test == 0x00) { //si l'UART est pas pret a transmettre un caractere (cf fonction putchar)
+ 149   3            return 0;
+ 150   3          }
+ 151   2        }
+ 152   1        return i; //nb de caracteres envoyes
+ 153   1      }
+ 154          
+ 155          //fonction reception d'un caractere (cf algorigramme dans la doc)
+ 156          char Getchar1(void){
+ 157   1        char c;
+ 158   1        if((SCON1&0x01)==0x00) //selection du bit 1 de SCON1 , si il est a 0
+ 159   1        {
+ 160   2          return 0;
+ 161   2        }
+ 162   1        else{
+ 163   2          c=SBUF1; //lecture du caractere recu
+ 164   2          SCON1&=0xfe;
+ 165   2        return c;
+ 166   2        }
+ 167   1      }
+ 168          
+ 169          //fonction de test de l'UART
+ 170          void test_UART1(void) {
+ 171   1        char c[10];
+ 172   1        c[0] = Getchar1(); //c prend la valeur du getchar
+ 173   1        c[1] = '\0';
+C51 COMPILER V9.52.0.0   CONFIG_UART                                                       03/21/2018 12:09:10 PAGE 4   
+
+ 174   1        if (c!=0) {
+ 175   2          Send_String1(&c);
+ 176   2        }
+ 177   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    321    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      30
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

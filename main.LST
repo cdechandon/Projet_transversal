@@ -1,0 +1,79 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              03/21/2018 12:09:09 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include <c8051f020.h>
+   2          #include "config_globale.h"
+   3          #include "Declarations_GPIO_BSE.h"
+   4          #include <intrins.h>
+   5          #include "config_UART.h"
+   6          #include "FO_M1.h"
+   7          #include "UART0_RingBuffer_lib.h"
+   8            int compteur;
+   9            char reception[6];  
+  10            char Vit[4];
+  11            struct COMMANDES commande;
+  12          void main (){ 
+  13   1        char  c;
+  14   1        Init_Device();
+  15   1        CFG_Clock_UART1();
+  16   1        CFG_UART1();
+  17   1        cfg_Clock_UART();
+  18   1        cfg_UART0_mode1();
+  19   1        
+  20   1        init_Serial_Buffer();                            
+  21   1        EA = 1;   
+  22   1        
+  23   1        while(1){
+  24   2          compteur=0;
+  25   2          while(c=serInchar()==0){}
+  26   2            
+  27   2          while((c!='\r') && c!=0){
+  28   3            c=serInchar();
+  29   3            reception[compteur]=c;
+  30   3            compteur++;
+  31   3          }
+  32   2          reception[compteur]='\0';
+  33   2          if( reception[0] == ('A') ) {
+  34   3            commande.Etat_Mouvement = Avancer;
+  35   3          }
+  36   2          Vit[0]=reception[2];
+  37   2          Vit[1]=reception[3];
+  38   2          Vit[2]=reception[4];
+  39   2          Vit[3]='\0';
+  40   2          commande.Vitesse=Vit;
+  41   2          
+  42   2          serOutstring(Vit);
+  43   2          serOutstring(reception);
+  44   2      }
+  45   1      
+  46   1        //Send_String1("digo 1:60000:100 2:60000:100\n\r");
+  47   1      while(1) {
+  48   2          
+  49   2          /*if (BP ==0) {
+  50   2          while ((c=serInchar())!=0) serOutchar(c);
+  51   2          } */
+  52   2           //serOutstring("Test_Buffer_Circulaire");
+  53   2        }
+  54   1      }
+
+C51 COMPILER V9.52.0.0   MAIN                                                              03/21/2018 12:09:09 PAGE 2   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    117    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     39    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,8 @@
+"STARTUP.obj",
+"main.obj",
+"config_globale.obj",
+"config_UART.obj",
+"FO_M1_Structures_COMMANDES_INFORMATIONS_CentraleDeCommande.obj",
+"UART0_RingBuffer_lib.obj" 
+TO "projet_transversal" 
+RAMSIZE(256) 
