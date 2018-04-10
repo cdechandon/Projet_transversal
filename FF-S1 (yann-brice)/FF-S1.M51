@@ -1,0 +1,396 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/04/2018  12:10:06  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE STARTUP.obj, Main.obj, Commande_Lumiere.obj, Config_Initiale.obj, Config_GPIO.obj TO FF-S1 RAMS
+>> IZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  STARTUP.obj (?C_STARTUP)
+  Main.obj (MAIN)
+  Commande_Lumiere.obj (COMMANDE_LUMIERE)
+  Config_Initiale.obj (CONFIG_INITIALE)
+  Config_GPIO.obj (CONFIG_GPIO)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?SIDIV)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?UIDIV)
+
+
+LINK MAP OF MODULE:  FF-S1 (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000CH     UNIT         ?DT?COMMANDE_LUMIERE
+            DATA    0014H     0004H     UNIT         _DATA_GROUP_
+            DATA    0018H     0002H     UNIT         ?DT?CONFIG_INITIALE
+            IDATA   001AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     001DH     UNIT         ?C_INITSEG
+            CODE    0020H     000BH     UNIT         ?PR?RESET_SOURCES_INIT?CONFIG_INITIALE
+            CODE    002BH     0003H     ABSOLUTE     
+            CODE    002EH     0096H     UNIT         ?PR?INTERRUPT_TIMER2?COMMANDE_LUMIERE
+            CODE    00C4H     008CH     UNIT         ?C_C51STARTUP
+            CODE    0150H     008BH     UNIT         ?C?LIB_CODE
+            CODE    01DBH     002AH     UNIT         ?PR?_LUMIERE?COMMANDE_LUMIERE
+            CODE    0205H     001AH     UNIT         ?PR?OSCILLATOR_INIT?CONFIG_INITIALE
+            CODE    021FH     0019H     UNIT         ?PR?_PCA?CONFIG_INITIALE
+            CODE    0238H     0017H     UNIT         ?PR?MAIN?MAIN
+            CODE    024FH     0010H     UNIT         ?PR?CONFIG_XBAR?CONFIG_INITIALE
+            CODE    025FH     000DH     UNIT         ?PR?CONFIG_TIMER2?CONFIG_INITIALE
+            CODE    026CH     000AH     UNIT         ?PR?CONFIG_GPIO?CONFIG_GPIO
+            CODE    0276H     0009H     UNIT         ?PR?INIT_DEVICE?CONFIG_INITIALE
+            CODE    027FH     0009H     UNIT         ?PR?INIT_PCA?CONFIG_INITIALE
+            CODE    0288H     0005H     UNIT         ?PR?LUMIERE_STOP?COMMANDE_LUMIERE
+
+
+
+OVERLAY MAP OF MODULE:   FF-S1 (?C_STARTUP)
+
+
+SEGMENT                                          DATA_GROUP 
+  +--> CALLED SEGMENT                          START    LENGTH
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/04/2018  12:10:06  PAGE 2
+
+
+--------------------------------------------------------------
+?C_C51STARTUP                                  -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                                  -----    -----
+  +--> ?PR?INIT_DEVICE?CONFIG_INITIALE
+  +--> ?PR?INIT_PCA?CONFIG_INITIALE
+  +--> ?PR?CONFIG_TIMER2?CONFIG_INITIALE
+  +--> ?PR?_LUMIERE?COMMANDE_LUMIERE
+
+?PR?INIT_DEVICE?CONFIG_INITIALE                -----    -----
+  +--> ?PR?RESET_SOURCES_INIT?CONFIG_INITIALE
+  +--> ?PR?OSCILLATOR_INIT?CONFIG_INITIALE
+  +--> ?PR?CONFIG_XBAR?CONFIG_INITIALE
+
+?PR?_LUMIERE?COMMANDE_LUMIERE                  0014H    0004H
+
+*** NEW ROOT ***************************************************
+
+?PR?INTERRUPT_TIMER2?COMMANDE_LUMIERE          -----    -----
+  +--> ?PR?_PCA?CONFIG_INITIALE
+  +--> ?PR?LUMIERE_STOP?COMMANDE_LUMIERE
+
+?PR?LUMIERE_STOP?COMMANDE_LUMIERE              -----    -----
+  +--> ?PR?_PCA?CONFIG_INITIALE
+
+
+
+SYMBOL TABLE OF MODULE:  FF-S1 (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:00C4H         SEGMENT       ?C_C51STARTUP
+  I:001AH         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:00C7H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:00C4H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/04/2018  12:10:06  PAGE 3
+
+
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:00C4H         LINE#         133
+  C:00C6H         LINE#         134
+  C:00C7H         LINE#         135
+  C:00C8H         LINE#         136
+  C:00CAH         LINE#         185
+  C:00CDH         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00E8H         PUBLIC        ADC0CN
+  D:00A8H         PUBLIC        IE
+  D:00D8H         PUBLIC        PCA0CN
+  D:00B8H         PUBLIC        IP
+  D:00C0H         PUBLIC        SMB0CN
+  C:0238H         PUBLIC        main
+  D:00F8H         PUBLIC        SPI0CN
+  D:0088H         PUBLIC        TCON
+  D:0098H         PUBLIC        SCON0
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  C:0238H         LINE#         9
+  C:0238H         LINE#         10
+  C:0238H         LINE#         12
+  C:023BH         LINE#         13
+  C:023EH         LINE#         14
+  C:0241H         LINE#         15
+  C:024DH         LINE#         17
+  C:024DH         LINE#         18
+  C:024DH         LINE#         20
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        COMMANDE_LUMIERE
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0008H         PUBLIC        Lum_Nbre_Glob
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00E8H         PUBLIC        ADC0CN
+  D:00A8H         PUBLIC        IE
+  D:000AH         PUBLIC        Lum_ON10
+  D:00D8H         PUBLIC        PCA0CN
+  D:00B8H         PUBLIC        IP
+  D:000CH         PUBLIC        Intensite_Glob
+  D:00C0H         PUBLIC        SMB0CN
+  D:00F8H         PUBLIC        SPI0CN
+  D:0088H         PUBLIC        TCON
+  B:00C8H.7       PUBLIC        TF2
+  D:000EH         PUBLIC        Lum_OFF10
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/04/2018  12:10:06  PAGE 4
+
+
+  C:01DBH         PUBLIC        _Lumiere
+  C:0288H         PUBLIC        Lumiere_Stop
+  D:0098H         PUBLIC        SCON0
+  D:00C8H         PUBLIC        T2CON
+  D:0010H         PUBLIC        i
+  D:0012H         PUBLIC        j
+  C:002EH         PUBLIC        Interrupt_Timer2
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          _LUMIERE
+  D:0004H         SYMBOL        Intensite
+  D:0005H         SYMBOL        Lum_ON
+  D:0003H         SYMBOL        Lum_OFF
+  D:0017H         SYMBOL        Lum_Nbre
+  C:01DBH         LINE#         16
+  C:01DDH         LINE#         17
+  C:01DDH         LINE#         18
+  C:01E7H         LINE#         19
+  C:01F7H         LINE#         20
+  C:01FDH         LINE#         21
+  C:0204H         LINE#         22
+  -------         ENDPROC       _LUMIERE
+  -------         PROC          LUMIERE_STOP
+  C:0288H         LINE#         27
+  C:0288H         LINE#         28
+  C:0288H         LINE#         29
+  -------         ENDPROC       LUMIERE_STOP
+  -------         PROC          INTERRUPT_TIMER2
+  C:002EH         LINE#         33
+  C:004BH         LINE#         36
+  C:0051H         LINE#         37
+  C:0051H         LINE#         38
+  C:0057H         LINE#         39
+  C:0057H         LINE#         40
+  C:005CH         LINE#         41
+  C:0064H         LINE#         42
+  C:006CH         LINE#         43
+  C:006EH         LINE#         45
+  C:006EH         LINE#         46
+  C:0071H         LINE#         47
+  C:0079H         LINE#         48
+  C:0081H         LINE#         50
+  C:0087H         LINE#         51
+  C:0087H         LINE#         52
+  C:008FH         LINE#         53
+  C:0095H         LINE#         54
+  C:009BH         LINE#         55
+  C:00A1H         LINE#         56
+  C:00A7H         LINE#         58
+  C:00A7H         LINE#         59
+  C:00A7H         LINE#         61
+  C:00A7H         LINE#         64
+  C:00A9H         LINE#         65
+  -------         ENDPROC       INTERRUPT_TIMER2
+  -------         ENDMOD        COMMANDE_LUMIERE
+
+  -------         MODULE        CONFIG_INITIALE
+  C:0000H         SYMBOL        _ICE_DUMMY_
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/04/2018  12:10:06  PAGE 5
+
+
+  D:0080H         PUBLIC        P0
+  D:00FFH         PUBLIC        WDTCN
+  B:00A8H.7       PUBLIC        EA
+  D:00E8H         PUBLIC        ADC0CN
+  D:00A4H         PUBLIC        P0MDOUT
+  D:00A8H         PUBLIC        IE
+  D:00FAH         PUBLIC        PCA0CPH0
+  B:00D8H.6       PUBLIC        CR
+  D:00DAH         PUBLIC        PCA0CPM0
+  D:00D9H         PUBLIC        PCA0MD
+  D:00D8H         PUBLIC        PCA0CN
+  D:00B8H         PUBLIC        IP
+  C:0205H         PUBLIC        Oscillator_Init
+  D:00E1H         PUBLIC        XBR0
+  D:00E2H         PUBLIC        XBR1
+  D:00E3H         PUBLIC        XBR2
+  D:00CBH         PUBLIC        RCAP2H
+  D:00C0H         PUBLIC        SMB0CN
+  D:00CAH         PUBLIC        RCAP2L
+  D:00F8H         PUBLIC        SPI0CN
+  D:0088H         PUBLIC        TCON
+  D:00B2H         PUBLIC        OSCICN
+  C:0020H         PUBLIC        Reset_Sources_Init
+  C:0276H         PUBLIC        Init_Device
+  C:027FH         PUBLIC        Init_PCA
+  B:00A8H.5       PUBLIC        ET2
+  B:00C8H.7       PUBLIC        TF2
+  D:00B1H         PUBLIC        OSCXCN
+  C:021FH         PUBLIC        _PCA
+  B:00C8H.2       PUBLIC        TR2
+  D:0018H         PUBLIC        SYSCLK
+  D:0098H         PUBLIC        SCON0
+  D:00C8H         PUBLIC        T2CON
+  C:024FH         PUBLIC        Config_XBAR
+  C:025FH         PUBLIC        Config_Timer2
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          INIT_DEVICE
+  C:0276H         LINE#         13
+  C:0276H         LINE#         14
+  C:0276H         LINE#         15
+  C:0279H         LINE#         16
+  C:027CH         LINE#         17
+  -------         ENDPROC       INIT_DEVICE
+  -------         PROC          RESET_SOURCES_INIT
+  C:0020H         LINE#         22
+  C:0020H         LINE#         23
+  C:0020H         LINE#         24
+  C:0022H         LINE#         25
+  C:0025H         LINE#         26
+  C:0028H         LINE#         27
+  C:002AH         LINE#         28
+  -------         ENDPROC       RESET_SOURCES_INIT
+  -------         PROC          OSCILLATOR_INIT
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:0205H         LINE#         30
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/04/2018  12:10:06  PAGE 6
+
+
+  C:0205H         LINE#         31
+  C:0205H         LINE#         32
+  C:0208H         LINE#         33
+  C:020BH         LINE#         34
+  C:0216H         LINE#         35
+  C:021BH         LINE#         36
+  C:021EH         LINE#         37
+  -------         ENDPROC       OSCILLATOR_INIT
+  -------         PROC          CONFIG_TIMER2
+  C:025FH         LINE#         39
+  C:025FH         LINE#         40
+  C:025FH         LINE#         41
+  C:0261H         LINE#         42
+  C:0263H         LINE#         43
+  C:0265H         LINE#         44
+  C:0268H         LINE#         45
+  C:026BH         LINE#         47
+  -------         ENDPROC       CONFIG_TIMER2
+  -------         PROC          CONFIG_XBAR
+  C:024FH         LINE#         49
+  C:024FH         LINE#         50
+  C:024FH         LINE#         51
+  C:0252H         LINE#         52
+  C:0255H         LINE#         53
+  C:0258H         LINE#         54
+  C:025BH         LINE#         55
+  C:025EH         LINE#         57
+  -------         ENDPROC       CONFIG_XBAR
+  -------         PROC          INIT_PCA
+  C:027FH         LINE#         59
+  C:027FH         LINE#         60
+  C:027FH         LINE#         62
+  C:0281H         LINE#         64
+  C:0284H         LINE#         65
+  C:0287H         LINE#         67
+  -------         ENDPROC       INIT_PCA
+  -------         PROC          _PCA
+  D:0007H         SYMBOL        Intensite
+  -------         DO            
+  D:0006H         SYMBOL        Quantite_lumiere
+  -------         ENDDO         
+  C:021FH         LINE#         70
+  C:021FH         LINE#         71
+  C:021FH         LINE#         73
+  C:022EH         LINE#         75
+  C:0234H         LINE#         76
+  C:0237H         LINE#         79
+  -------         ENDPROC       _PCA
+  -------         ENDMOD        CONFIG_INITIALE
+
+  -------         MODULE        CONFIG_GPIO
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00E8H         PUBLIC        ADC0CN
+  D:00A4H         PUBLIC        P0MDOUT
+  D:00A8H         PUBLIC        IE
+  D:00D8H         PUBLIC        PCA0CN
+  D:00B8H         PUBLIC        IP
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/04/2018  12:10:06  PAGE 7
+
+
+  D:00E1H         PUBLIC        XBR0
+  D:00E3H         PUBLIC        XBR2
+  D:00C0H         PUBLIC        SMB0CN
+  D:00F8H         PUBLIC        SPI0CN
+  D:0088H         PUBLIC        TCON
+  D:0098H         PUBLIC        SCON0
+  D:00C8H         PUBLIC        T2CON
+  C:026CH         PUBLIC        Config_GPIO
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          CONFIG_GPIO
+  C:026CH         LINE#         3
+  C:026CH         LINE#         4
+  C:026CH         LINE#         5
+  C:026FH         LINE#         6
+  C:0272H         LINE#         7
+  C:0275H         LINE#         9
+  -------         ENDPROC       CONFIG_GPIO
+  -------         ENDMOD        CONFIG_GPIO
+
+  -------         MODULE        ?C?SIDIV
+  C:0150H         PUBLIC        ?C?SIDIV
+  -------         ENDMOD        ?C?SIDIV
+
+  -------         MODULE        ?C?UIDIV
+  C:0186H         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?CONFIG_GPIO?CONFIG_GPIO
+
+Program Size: data=27.0 xdata=0 code=653
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

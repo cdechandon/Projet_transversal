@@ -1,0 +1,7 @@
+"STARTUP.obj",
+"Main.obj",
+"Commande_Lumiere.obj",
+"Config_Initiale.obj",
+"Config_GPIO.obj" 
+TO "FF-S1" 
+RAMSIZE(256) 
